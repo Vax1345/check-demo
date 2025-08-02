@@ -4,7 +4,7 @@ from PIL import Image
 # --- לוגו וסלוגן ---
 st.markdown("""
 <div style='text-align:center;'>
-    <img src="AISelect_20250802_213329_Chrome.jpg" width="110"/><br>
+    <img c4c="https://github.com/Vax1345/check-demo/blob/main/AISelect_20250802_213329_Chrome.jpg width="110"/><br>
     <span style="display: inline-block; margin-top: 10px; padding: 7px 18px; border-radius :15px; font-size: 1.4em; background :#f7941d; color: #fff;font-weight: 800;">
         לא מוותרים על בן אדם בבנק
     </span>
