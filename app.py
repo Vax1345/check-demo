@@ -28,7 +28,7 @@ def analyze_check(filename):
                 ("קרוס", False),
             ]
         },
-       EXAMPLES = {:
+       EXAMPLES = ":"
     "Check1.jpg": {
         "שם מוטב": "לא קיים",
         "סכום בספרות": "23,000",
