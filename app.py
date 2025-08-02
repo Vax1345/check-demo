@@ -17,7 +17,7 @@ uploaded_file = st.file_uploader("בחר קובץ (JPG, PNG)", type=["jpg", "jpe
 
 def analyze_check(filename):
     fname = filename.lower()
-    results = 
+    results = {
         "check1.jpg": {
             "שדות": [
                 ("שם מוטב", False),
