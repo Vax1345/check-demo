@@ -1,89 +1,64 @@
 import streamlit as st
 from PIL import Image
-import datetime
 
-# --- לוגו עליון ודגלון ---
-st.markdown("""
-    <div style='display: flex; align-items: center;'>
-        <img src='https://i.imgur.com/V5yEq5G.png' width='45'/>
-        <div style='margin-right: 12px;'>
-            <span style='font-size:2.3em;font-weight:700'>התפעול העורפי מציג:</span><br/>
-            <span style='font-size:1.3em;'>בדיקת צ׳קים אוטומטית</span>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
+st.title("בדיקת צ׳קים דמו - תפעול עורפי אוטומטי")
 
-st.write("העלה תמונה של צ׳ק (עדיף תמונה ברורה, ישרה וללא השתקפויות).")
-uploaded_file = st.file_uploader("בחר קובץ תמונה", type=["jpg", "jpeg", "png"])
-def analyze_check(uploaded_file):
-    filename = uploaded_file.name.lower()
-    # צ'ק 1 - לאומי
-    if "check1" in filename:
-        return {
-            "סכום בספרות": "23,000",
-            "סכום במילים": "עשרים ושלוש אלף ש''ח",
-            "שם מוטב": "לא קיים",
-            "תאריך": "30.9.2018 (עבר זמנו)",
+st.write("העלה קובץ תמונה של צ׳ק (1.jpg, 2.jpg, 3.jpg, 4.jpg):")
+uploaded_file = st.file_uploader("בחר קובץ", type=["jpg", "jpeg", "png"])
+
+def analyze_check(filename):
+    # מפה פשוטה לפי שם קובץ – בקלות אפשר לשפר אחר כך!
+    results = {
+        "1": {
             "דו\"ח": [
                 "❌ חסר שם מוטב",
-                "❌ עבר זמנו"
+                "❌ עבר זמנו",
+                "✅ סכום במילים תואם לסכום בספרות"
             ]
-        }
-    # צ'ק 2 - מזרחי עם תיקונים
-    elif "check2" in filename:
-        return {
-            "סכום בספרות": "240,300",
-            "סכום במילים": "מאתיים ארבעים ושלוש מאות",
-            "שם מוטב": "קובי מנדלוביץ'",
-            "תאריך": "10.6.25 (עבר זמנו)",
+        },
+        "2": {
             "דו\"ח": [
                 "❌ בוצע תיקון בספרות ללא חתימה ליד התיקון",
-                "❌ בוצע שינוי בשדה המוטב (אסור)",
-                "❌ הסכום במילים לא תואם לספרות — חסרה המילה 'אלף'",
+                "❌ בוצע שינוי אסור בשדה המוטב",
+                "❌ סכום במילים לא תואם לספרות (חסרה המילה 'אלף')",
+                "❌ עבר זמנו",
+                "✅ שם מוטב: קובי מנדלוביץ'"
+            ]
+        },
+        "3": {
+            "דו\"ח": [
+                "✅ שם מוטב: ישראל ישראלסקי",
+                "✅ סכום בספרות: 23,400",
+                "❌ עבר זמנו"
+            ]
+        },
+        "4": {
+            "דו\"ח": [
+                "❌ סכום במילים לא תואם לספרות ('הרבה מאוד כסף')",
+                "❌ שם מוטב אינו קיים (מעמד הביניים)",
                 "❌ עבר זמנו"
             ]
         }
-    # צ'ק 3 - ישראכרט
-    elif "check3" in filename:
-        return {
-            "סכום בספרות": "23,400",
-            "סכום במילים": "עשרים ושלושה אלף ש''ח",
-            "שם מוטב": "ישראל ישראלסקי",
-            "תאריך": "23.5.2011 (עבר זמנו)",
-            "דו\"ח": [
-                "❌ עבר זמנו"
-            ]
-        }
-    # צ'ק 4 - מדינת ישראל מיליון ש"ח
-    elif "check4" in filename:
-        return {
-            "סכום בספרות": "1,000,000",
-            "סכום במילים": "הרבה מאוד כסף",
-            "שם מוטב": "מעמד הביניים (שם פיקטיבי)",
-            "תאריך": "לא ברור (עבר זמנו)",
-            "דו\"ח": [
-                "❌ אין התאמה בין סכום למילים",
-                "❌ שם מוטב לא קיים (לא על שם המחזה)",
-                "❌ תאריך לא ברור / עבר זמנו"
-            ]
-        }
-    # ברירת מחדל
-    else:
-        return {
-            "סכום בספרות": "—",
-            "סכום במילים": "—",
-            "שם מוטב": "—",
-            "תאריך": "—",
-            "דו\"ח": [
-                "⚠️ לא הוגדר דוח לצ'ק זה – העלה קובץ דמו מתאים."
-            ]
-        }    # פירוט הערכים שחולצו
-    with st.expander("פרטי הצ׳ק שחולצו:"):
-        for k, v in analysis.items():
-            st.write(f"**{k}**: {v}")
+    }
+    base = filename.split(".")[0]
+    return results.get(base, {"דו\"ח": ["⚠️ לא נמצא מידע לדוגמה עבור הצ׳ק הזה"]})
+
+if uploaded_file is not None:
+    st.image(uploaded_file, caption='התמונה שהעלית', use_column_width=True)
+    st.markdown("---")
+    st.header("📋 דו\"ח אוטומטי לצ׳ק:")
+
+    analysis = analyze_check(uploaded_file.name)
+    for row in analysis["דו\"ח"]:
+        if "✅" in row:
+            st.success(row)
+        elif "❌" in row:
+            st.error(row)
+        else:
+            st.info(row)
 
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center; color:#888;'>©️ תפעול עורפי 2025 — הדגמה בלבד. אין להשתמש כמערכת אמיתית.<br>פותח ע\"י GPT4o, צחי והחברים.</div>",
+    "<div style='text-align:center; color:#888;'>©️ תפעול עורפי 2025 — דמו בלבד. אין להשתמש כמערכת אמיתית.</div>",
     unsafe_allow_html=True
 )
