@@ -1,22 +1,28 @@
 import streamlit as st
 from PIL import Image
 
+st.set_page_config(page_title="בדיקת צ׳קים דמו", page_icon=":money_with_wings:", layout="centered")
+
 st.markdown("""
-    <div style='display: flex; align-items: center;'>
-        <img src='https://i.imgur.com/V5yEq5G.png' width='45'/>
-        <div style='margin-right: 12px;'>
-            <span style='font-size:2.3em;font-weight:700'>בדיקת צ׳קים דמו - תפעול עורפי אוטומטי</span>
+    <div style='display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 0.6em;'>
+        <img src='https://cdn-icons-png.flaticon.com/512/3514/3514347.png' width='50'/>
+        <div>
+            <span style='font-size:2.2em;font-weight:800;color:#fff;'>בדיקת צ׳קים דמו</span><br/>
+            <span style='font-size:1.1em;color:#ccc;'>התפעול העורפי מציג — ניתוח אוטומטי</span>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-st.write("העלה קובץ תמונה של צ׳ק (1.jpg, 2.jpg, 3.jpg, 4.jpg) להדגמה:")
+with st.expander("🛈 איך זה עובד?", expanded=False):
+    st.write("""
+    העלה תמונה של צ׳ק (jpg / png), והמערכת תנתח אוטומטית ותציג לך שגיאות ומידע רלוונטי.
+    זו הדגמה בלבד (המידע מזוהה לפי שם הקובץ — הכל לשואו).
+    """)
+    st.write("🟢 תומך בצ׳קים לדוגמה, אפשר להעלות כמה שבא לך.")
 
-uploaded_file = st.file_uploader("בחר קובץ", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("העלה צ׳ק לבדיקה אוטומטית:", type=["jpg", "jpeg", "png"])
 
-# ----- פונקציית הדגמה: מחזירה תוצאה לפי שם הקובץ בלבד -----
 def analyze_check_demo(filename):
-    # השמות שמגיעים מ־st.file_uploader
     demo_checks = {
         "1.jpg": {
             "סכום בספרות": "23,000",
@@ -71,15 +77,15 @@ if uploaded_file is not None:
     if result:
         for err in result.get("שגיאות", []):
             st.error(err)
-        with st.expander("פרטי הצ׳ק שחולצו:"):
+        with st.expander("📑 פרטי הצ׳ק שחולצו:"):
             for k, v in result.items():
                 if k != "שגיאות":
                     st.write(f"**{k}**: {v}")
     else:
-        st.warning("⚠️ לא נמצא מידע לדוגמה עבור הצ׳ק הזה.")
+        st.warning("⚠️ אין מידע לדוגמה עבור הצ׳ק הזה.\nנסה להעלות אחד מהצ׳קים לדוגמה.")
 
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center; color:#888;'>©️ תפעול עורפי 2025 — דמו בלבד. אין להשתמש כמערכת אמיתית.<br>פותח ע\"י GPT4o, צחי והחברים.</div>",
+    "<div style='text-align:center; color:#aaa; font-size:0.95em;'>©️ תפעול עורפי 2025 — דמו בלבד. אין להשתמש כמערכת אמיתית.<br>פותח ע\"י GPT4o, צחי והחברים.</div>",
     unsafe_allow_html=True
 )
