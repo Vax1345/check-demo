@@ -4,7 +4,8 @@ from PIL import Image
 # --- לוגו וסלוגן ---
 st.markdown("""
 <div style='text-align:center;'> <img src="https://raw.githubusercontent.com/Vax1345/check-demo/main/AISelect_20250802_213329_Chrome.jpg" width="110"/><br>
-  <span style="font-size:1.3em; font-weight:800; color:{color}">{icons[ok]}</span>div>
+  <span style="font-size:1.3em; font-weight:800; color:{color}">{icons[ok]} לא מוותרים על בן אדם בבנק
+</span>div>
 """, unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -27,18 +28,35 @@ def analyze_check(filename):
                 ("קרוס", False),
             ]
         },
-        "check2.jpg": {
-            "שדות": [
-                ("שם מוטב", True),
-                ("סכום בספרות", True),
-                ("סכום במילים", False),
-                ("עבר זמנו", True),
-                ("חתימה ליד תיקון", False),
-                ("בוצע תיקון בשם המוטב (אסור)", True),
-                ("קרוס", True),
-            ]
-        },
-        "check3.jpg": {
+       EXAMPLES = {
+    "Check1.jpg": {
+        "שם מוטב": "לא קיים",
+        "סכום בספרות": "23,000",
+        "סכום במילים": "עשרים ושלש אלף ש\"ח",
+        "תאריך": "30.09.2018 - עבר זמנו",
+        "חתימת מושך": "קיימת",
+        "למוטב בלבד": "תקין (אם גרוס)",
+        "שגיאות": [
+            "חסר שם מוטב",
+            "עבר זמנו"
+        ]
+    },
+    "Check2.jpg": {
+        "שם מוטב": "קובי מנדלוביץ'",
+        "סכום בספרות": "240,300",
+        "סכום במילים": "מאתיים ארבעים של מאות",
+        "תאריך": "10.06.25 - תקין",
+        "חתימת מושך": "תקין",
+        "למוטב בלבד": "תקין",
+        "שגיאות": [
+            "אי התאמה בין מילים לספרות",
+            "חסרה חתימה ליד התיקון בספרות",
+            "בוצע תיקון בשם המוטב",
+            "בוצע שינוי אסור בצ׳ק"
+        ]
+    },
+    # כאן תוכל להמשיך להוסיף עוד צ׳קים
+} "check3.jpg": {
             "שדות": [
                 ("שם מוטב", True),
                 ("סכום בספרות", True),
