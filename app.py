@@ -7,8 +7,11 @@ st.markdown("""
     <img src="https://raw.githubusercontent.com/Vax1345/check-demo/main/AISelect_20250802_213329_Chrome.jpg" width='100'/><br><br>
     <span style="display: inline-block; padding: 12px 24px; background: #f7941d; color: white; font-weight: bold; font-size: 1.6em; border-radius: 25px;">
         לא מוותרים על בן אדם בבנק
-    </span>
-</div>
+
+
+ style='font-size:1.1em;color:#ccc;'>התפעול העורפי מציג — ניתוח אוטומטי</span>
+        </div>
+    </div>
 """, unsafe_allow_html=True)
 
 st.markdown("### 📲 העלה תמונה של צ'ק לבדיקה:")
@@ -21,17 +24,19 @@ def analyze_check(filename):
     results = {
         "check1.jpg": {
             "שדות": [
-                ("שם מוטב", False),
-                ("סכום בספרות", True),
-                ("סכום במילים", True),
-                ("עבר זמנו", False),
+                ("שם מוטב", False,  "❌ חסר שם מוטב",),
+                ( סכום בספרות: "23,000", True), "
+                ("סכום במילים", True "עשרים ושלוש אלף ש״ח",),
+                ("עבר זמנו", False 12 09.2011),
                 ("חתימת מושך", True),
                 ("קרוס",True),
             ],
-            "שגיאות": [
-                "חסר שם מוטב",
-                "עבר זמנו"
+            "שגיאות": [,
+                "❌חסר שם מוטב",
+                 
+                "❌ עבר זמנו של הצ׳ק"
             ]
+
         },
         "check2.jpg": {
             "שדות": [
