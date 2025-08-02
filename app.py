@@ -4,8 +4,8 @@ from PIL import Image
 # --- לוגו וסלוגן ---
 st.markdown("""
 <div style='text-align:center;'>
-    <img src=AISelect_20250802_213329_Chrome.jpg' width='110'/><br>
-    <span style='display:inline-block;margin-top:10px;padding:7px 18px;border-radius:15px;font-size:1.4em;background:#f7941d;color:#fff;font-weight:800;'>
+    <img src="AISelect_20250802_213329_Chrome.jpg" width="110"/><br>
+    <span style="display: inline-block; margin-top: 10px; padding: 7px 18px; border-radius :15px; font-size: 1.4em; background :#f7941d; color: #fff;font-weight: 800;">
         לא מוותרים על בן אדם בבנק
     </span>
 </div>
@@ -51,9 +51,9 @@ def render_fields(fields):
         color = "#27ae60" if ok else "#e74c3c"
         st.markdown(
             f"""
-            <div style='display:flex;align-items:center;justify-content:space-between;background:#262d36;border-radius:12px;padding:10px 16px;margin:5px 0;'>
-                <span style='color:#fff;font-size:1.15em;'>{name}</span>
-                <span style='font-size:1.3em;font-weight:800;color:{color}'>{icons[ok]}</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #262d36; border-radius: 12px; padding: 10px 16px; margin: 5px 0;">
+                <span style="color: #fff; font-size: 1.15em;">{name}</span>
+                <span style="font-size :1.3em; font-weight: 800; color:{color}'>{icons[ok]}</span>
             </div>
             """, unsafe_allow_html=True
         )
