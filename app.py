@@ -1,112 +1,80 @@
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(page_title="בדיקת צ׳קים דמו", page_icon=":money_with_wings:", layout="centered")
-
+# --- לוגו וסלוגן ---
 st.markdown("""
-    <div style='display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 0.6em;'>
-        <img src='https://cdn-icons-png.flaticon.com/512/3514/3514347.png' width='50'/>
-        <div>
-            <span style='font-size:2.2em;font-weight:800;color:#fff;'>בדיקת צ׳קים דמו</span><br/>
-            <span style='font-size:1.1em;color:#ccc;'>התפעול העורפי מציג — ניתוח אוטומטי</span>
-        </div>
-    </div>
+<div style='text-align:center;'>
+    <img src=AISelect_20250802_213329_Chrome.jpg' width='110'/><br>
+    <span style='display:inline-block;margin-top:10px;padding:7px 18px;border-radius:15px;font-size:1.4em;background:#f7941d;color:#fff;font-weight:800;'>
+        לא מוותרים על בן אדם בבנק
+    </span>
+</div>
 """, unsafe_allow_html=True)
 
-with st.expander("🛈 איך זה עובד?", expanded=False):
-    st.write("""
-    העלה תמונה של צ׳ק (jpg / png), והמערכת תנתח אוטומטית ותציג לך שגיאות ומידע רלוונטי.
-    זו הדגמה בלבד (המידע מזוהה לפי שם הקובץ — הכל לשואו).
-    """)
-    st.write("🟢 תומך בצ׳קים לדוגמה, אפשר להעלות כמה שבא לך.")
+st.markdown("<br>", unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("העלה צ׳ק לבדיקה אוטומטית:", type=["jpg", "jpeg", "png"])
+# --- העלאת תמונה ---
+st.markdown("### 📲 העלה תמונה של צ'ק לבדיקה:")
 
-def analyze_check_demo(filename):
-    demo_checks = {
-        "1.jpg": {
-            "סכום בספרות": "23,000",
-            "סכום במילים": "עשרים ושלוש אלף ש״ח",
-            "שגיאות": [
-                "❌ חסר שם מוטב",
-                "❌ עבר זמנו של הצ׳ק"
+uploaded_file = st.file_uploader("בחר קובץ (JPG, PNG)", type=["jpg", "jpeg", "png"])
+
+def analyze_check(filename):
+    # דוגמה — תחליף ל־OCR אמיתי
+    results = {
+        "Check1.jpg": {
+            "שדות": [
+                ("שם מוטב", False),
+                ("סכום בספרות", True),
+                ("סכום במילים", True),
+                ("עבר זמנו", True),
+                ("חתימת מושך", False),
+                ("קרוס", False),
             ]
         },
-        "2.jpg": {
-            "סכום בספרות": "240,300",
-            "סכום במילים": "מאתיים ארבעים ושלוש מאות",
-            "שם מוטב": "קובי מנדלוביץ'",
-            "שגיאות": [
-                "❌ בוצע תיקון בספרות ללא חתימה ליד התיקון",
-                "❌ בוצע תיקון בשדה המוטב (אסור)",
-                "❌ עבר זמנו של הצ׳ק",
-                "❌ סכום במילים לא תואם לסכום הספרות (חסרה המילה 'אלף')"
+        "Check2.jpg": {
+            "שדות": [
+                ("שם מוטב", True),
+                ("סכום בספרות", True),
+                ("סכום במילים", False),
+                ("עבר זמנו", True),
+                ("חתימה ליד תיקון", False),
+                ("קרוס", True),
             ]
-        },    "2.jpg": {
-            "סכום בספרות": "240,300",
-            "סכום במילים": "מאתיים ארבעים ושלוש מאות",
-            "שם מוטב": "קובי מנדלוביץ'",
-            "שגיאות": [
-                "❌ בוצע תיקון בספרות ללא חתימה ליד התיקון",
-                "❌ בוצע תיקון בשדה המוטב (אסור)",
-                "❌ עבר זמנו של הצ׳ק",
-                "❌ סכום במילים לא תואם לסכום הספרות (חסרה המילה 'אלף')"
-            ]
-        
-        
-    },    "6.jpg": {
-            "סכום בספרות": "188,597.27",
-            "סכום במילים": "מאה שמונים ושמונה אלף חמש מאות תשעים ושבע שח ו27 אגורות",
-    "שם מוטב": "שירלי בן דוד מועד",
-            "שגיאות": [
-                "❌ תאריך 28.02.21 עברו יותר משישה חודשים - עבר זמנו",
-      
-  ]
-        
-                    
-    },     "3.jpg": {
-            "סכום בספרות": "23,400",
-            "סכום במילים": "עשרים ושלושה אלף ש״ח",
-            "שם מוטב": "ישראל ישראלסקי",
-            "שגיאות": [
-                "❌ עבר זמנו של הצ׳ק"
-            ]
-        },
-        "4.jpg": {
-            "סכום בספרות": "1,000,000",
-            "סכום במילים": "הרבה מאוד כסף",
-            "שם מוטב": "מעמד הביניים",
-            "שגיאות": [
-                "❌ סכום במילים לא תואם לסכום בספרות",
-                "❌ שם המוטב אינו על שם הנחזה",
-                "❌ עבר זמנו של הצ׳ק"
-            ]
-        },
+        }
     }
-    # תומך גם ב-Check1.jpg, Check2.jpg וכו'
-    if filename.lower().startswith("check"):
-        key = filename.lower().replace("check", "").replace(".jpg", "") + ".jpg"
-        return demo_checks.get(key)
-    return demo_checks.get(filename)
+    return results.get(filename, None)
 
-if uploaded_file is not None:
+# --- תצוגה "אפליקציה" של בדיקת שדות ---
+def render_fields(fields):
+    icons = {True: "✅", False: "❌"}
+    for name, ok in fields:
+        color = "#27ae60" if ok else "#e74c3c"
+        st.markdown(
+            f"""
+            <div style='display:flex;align-items:center;justify-content:space-between;background:#262d36;border-radius:12px;padding:10px 16px;margin:5px 0;'>
+                <span style='color:#fff;font-size:1.15em;'>{name}</span>
+                <span style='font-size:1.3em;font-weight:800;color:{color}'>{icons[ok]}</span>
+            </div>
+            """, unsafe_allow_html=True
+        )
+
+if uploaded_file:
     st.image(uploaded_file, caption='התמונה שהעלית', use_container_width=True)
-    st.markdown("---")
-    st.header("📋 דו\"ח אוטומטי לצ׳ק:")
+    st.markdown("### תוצאות הבדיקה:")
 
-    result = analyze_check_demo(uploaded_file.name)
+    result = analyze_check(uploaded_file.name)
     if result:
-        for err in result.get("שגיאות", []):
-            st.error(err)
-        with st.expander("📑 פרטי הצ׳ק שחולצו:"):
-            for k, v in result.items():
-                if k != "שגיאות":
-                    st.write(f"**{k}**: {v}")
+        render_fields(result["שדות"])
     else:
-        st.warning("⚠️ אין מידע לדוגמה עבור הצ׳ק הזה.\nנסה להעלות אחד מהצ׳קים לדוגמה.")
+        st.warning("לא נמצאה דוגמת בדיקה עבור הצ'ק הזה.")
 
-st.markdown("---")
-st.markdown(
-    "<div style='text-align:center; color:#aaa; font-size:0.95em;'>©️ תפעול עורפי 2025 — דמו בלבד. אין להשתמש כמערכת אמיתית.<br>פותח ע\"י GPT4o, צחי והחברים.</div>",
-    unsafe_allow_html=True
-)
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+# --- קרדיט תחתון ---
+st.markdown("""
+<div style='text-align:center;font-size:0.97em;color:#777;padding:12px;'>
+    <img src='https://i.imgur.com/tT1QpLS.png' width='48' style='vertical-align:middle; margin-bottom:3px;'/>
+    <br>©️ תפעול עורפי — 2025 | דמו בלבד | אין להסתמך על הבדיקה<br>
+    Powered by GPT-4o, צחי, והחברים
+</div>
+""", unsafe_allow_html=True)
