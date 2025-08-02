@@ -3,12 +3,8 @@ from PIL import Image
 
 # --- לוגו וסלוגן ---
 st.markdown("""
-<div style='text-align:center;'>
-    <img src="https://github.com/Vax1345/check-demo/blob/main/AISelect_20250802_213329_Chrome.jpg"  width='110'/><br>
-    <span style="display: inline-block; margin-top: 10px; padding: 7px 18px; border-radius :15px; font-size: 1.4em; background :#f7941d; color: #fff;font-weight: 800;">
-        לא מוותרים על בן אדם בבנק
-    </span>
-</div>
+<div style='text-align:center;'> <img src="https://raw.githubusercontent.com/Vax1345/check-demo/main/AISelect_20250802_213329_Chrome.jpg" width="110"/><br>
+  <span style="font-size:1.3em; font-weight:800; color:{color}">{icons[ok]}</span>div>
 """, unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -19,9 +15,13 @@ st.markdown("### 📲 העלה תמונה של צ'ק לבדיקה:")
 uploaded_file = st.file_uploader("בחר קובץ (JPG, PNG)", type=["jpg", "jpeg", "png"])
 
 def analyze_check(filename):
-    # דוגמה — תחליף ל־OCR אמיתי
+    # תמיד אותיות קטנות
+    fname = filename.lower()
     results = {
-        "Check1.jpg": {
+        "check1.jpg": { ... },
+    return results.get(fname, None)— תחליף ל־OCR אמיתי
+    results = {
+        "check1.jpg": {
             "שדות": [
                 ("שם מוטב", False),
                 ("סכום בספרות", True),
@@ -31,7 +31,7 @@ def analyze_check(filename):
                 ("קרוס", False),
             ]
         },
-        "Check2.jpg": {
+        "check2.jpg": {
             "שדות": [
                 ("שם מוטב", True),
                 ("סכום בספרות", True),
@@ -40,7 +40,29 @@ def analyze_check(filename):
                 ("חתימה ליד תיקון", False),
                 ("קרוס", True),
             ]
-        }
+        },
+"check3.jpg" : {
+            "שדות": [
+                ("שם מוטב", True),
+                ("סכום בספרות", True),
+                ("סכום במילים", False),
+                ("עבר זמנו", True),
+                ("חתימה ליד תיקון", False),
+                ("קרוס", True),
+            ]
+        },
+
+        "check2m4.jpg": {
+            "שדות": [
+                ("שם מוטב", True),
+                ("סכום בספרות", True),
+                ("סכום במילים", False),
+                ("עבר זמנו", True),
+                ("חתימה ליד תיקון", False),
+                ("קרוס", True),
+            ]
+        },
+
     }
     return results.get(filename, None)
 
