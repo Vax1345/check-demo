@@ -52,7 +52,7 @@ def analyze_check(filename):
             ]
         },
 
-        "check2m4.jpg": {
+        "check4.jpg": {
             "שדות": [
                 ("שם מוטב", True),
                 ("סכום בספרות", True),
