@@ -15,11 +15,7 @@ st.markdown("### 📲 העלה תמונה של צ'ק לבדיקה:")
 uploaded_file = st.file_uploader("בחר קובץ (JPG, PNG)", type=["jpg", "jpeg", "png"])
 
 def analyze_check(filename):
-    # תמיד אותיות קטנות
     fname = filename.lower()
-    results = {
-        "check1.jpg": { ... },
-    return results.get(fname, None)— תחליף ל־OCR אמיתי
     results = {
         "check1.jpg": {
             "שדות": [
@@ -38,34 +34,32 @@ def analyze_check(filename):
                 ("סכום במילים", False),
                 ("עבר זמנו", True),
                 ("חתימה ליד תיקון", False),
+                ("בוצע תיקון בשם המוטב (אסור)", True),
                 ("קרוס", True),
             ]
         },
-"check3.jpg" : {
+        "check3.jpg": {
             "שדות": [
                 ("שם מוטב", True),
                 ("סכום בספרות", True),
-                ("סכום במילים", False),
+                ("סכום במילים", True),
                 ("עבר זמנו", True),
-                ("חתימה ליד תיקון", False),
+                ("חתימת מושך", True),
                 ("קרוס", True),
             ]
         },
-
         "check4.jpg": {
             "שדות": [
-                ("שם מוטב", True),
+                ("שם מוטב", False),
                 ("סכום בספרות", True),
                 ("סכום במילים", False),
                 ("עבר זמנו", True),
-                ("חתימה ליד תיקון", False),
-                ("קרוס", True),
+                ("חתימת מושך", False),
+                ("קרוס", False),
             ]
-        },
-
+        }
     }
-    return results.get(filename, None)
-
+    return results.get(fname, None)
 # --- תצוגה "אפליקציה" של בדיקת שדות ---
 def render_fields(fields):
     icons = {True: "✅", False: "❌"}
